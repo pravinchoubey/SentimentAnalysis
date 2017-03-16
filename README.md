@@ -122,15 +122,17 @@ Replace the value of access_key parameter by your applications's Access Key and 
 ```python
 $ pip install predictionio
 $ cd BagOfWords_SentimentAnalysis_Template
-$ python data/import_eventserver.py --access_key 3mZWDzci2D5YsqAnqNnXH9SB6Rg3dsTBs8iHkK6X2i54IQsIZI1eEeQQyMfs7b3F --file data/train.csv
+$ python data/data/import_eventServer.py --access_key 3mZWDzci2D5YsqAnqNnXH9SB6Rg3dsTBs8iHkK6X2i54IQsIZI1eEeQQyMfs7b3F --file data/sample.csv
 ```
 You should see the following output:
 ```
 Importing data...
-1578627 events are imported.
+400 events are imported.
 ```
 This python script converts the data file to proper events formats as needed by the event server.
 Now the training data is stored as events inside the Event Store.
+
+Sample data only contains 400 records. There is a very well maintained training corpus availabe at http://thinknook.com/twitter-sentiment-analysis-training-corpus-dataset-2012-09-22/ which contains around 1.5M records. 
 
 ## Deploy the Engine as a Service
 Now you can build, train, and deploy the engine. First, make sure you are under the Template directory.
