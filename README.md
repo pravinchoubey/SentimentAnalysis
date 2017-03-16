@@ -196,3 +196,6 @@ For any problem, you can create issue here and for merging new changes make pull
 
 This algorithm is under [Apache 2
 license](http://www.apache.org/licenses/LICENSE-2.0.html).
+
+## Sponsors 
+Coviam Innovate Digital - http://www.coviam.com/
