@@ -4,8 +4,13 @@
   "engineFactory": "com.coviam.sentimentAnalysis.engine.SA_EngineFactory",
   "datasource": {
     "params" : {
-      "appName" : "testApp",
+      "appName" : "SentimentAnalysis",
       "evalK" : 3
+    }
+  },
+  "preparator": {
+    "params": {
+      "nGram": 1
     }
   },
   "algorithms": [

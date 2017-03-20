@@ -4,7 +4,9 @@ Import sample data for sentiment analysis engine
 
 import predictionio
 import argparse
+import csv
 
+"""
 def import_events(client, file):
   f = open(file, 'r')
   count = 0
@@ -21,6 +23,29 @@ def import_events(client, file):
     count += 1
   f.close()
   print("%s events are imported." % count)
+"""
+
+def import_events(client, file):
+  f = open(file, 'r')
+  reader = csv.reader(f)
+  print("Importing data...")
+  rownum = 0
+  for row in reader:
+    if rownum == 0:
+        header = row
+        print(header[1],header[2])
+    else:
+        print(row)
+        client.create_event(
+           event="train",
+           entity_type="wiki_page",
+           entity_id=rownum,
+           properties= { "phrase" : row[3], "sentiment": float(row[1]) }
+        )
+    rownum += 1
+  f.close()
+  print("%s events are imported." % rownum)
+
 
 if __name__ == '__main__':
   parser = argparse.ArgumentParser(
