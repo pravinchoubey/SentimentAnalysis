@@ -6,24 +6,6 @@ import predictionio
 import argparse
 import csv
 
-"""
-def import_events(client, file):
-  f = open(file, 'r')
-  count = 0
-  print("Importing data...")
-  for line in f:
-    data = line.rstrip('\r\n').strip().rsplit(',')
-    print(data,len(data))
-    client.create_event(
-      event="train",
-      entity_type="phrase",
-      entity_id=count,
-      properties= { "phrase" : data[3], "sentiment": float(data[1]) }
-    )
-    count += 1
-  f.close()
-  print("%s events are imported." % count)
-"""
 
 def import_events(client, file):
   f = open(file, 'r')
@@ -38,7 +20,7 @@ def import_events(client, file):
         print(row)
         client.create_event(
            event="train",
-           entity_type="wiki_page",
+           entity_type="phrase",
            entity_id=rownum,
            properties= { "phrase" : row[3], "sentiment": float(row[1]) }
         )

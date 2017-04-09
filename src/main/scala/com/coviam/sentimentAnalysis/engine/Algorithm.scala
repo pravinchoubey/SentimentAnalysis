@@ -13,24 +13,19 @@ class Algorithm(val ap:AlgorithmParams) extends P2LAlgorithm[PreparedData, NBMod
 
   override def train(sc: SparkContext, pd: PreparedData): NBModel = {
     val nb = NaiveBayes.train(pd.labeledpoints,lambda = ap.lambda,modelType = "multinomial")
-    print("trained")
     NBModel(nb,sc)
   }
 
 
   override def predict(model: NBModel, query: Query): PredictedResult = {
 
-
-    print("prediction called")
-
     val sql = SQLContext.getOrCreate(model.sc)
     val phrase = sql.createDataFrame(Seq(query)).toDF("phrase")
+    // PreparatorParams(1) in below case will not effect while using unigram+bigram as feature in DataPreparator.scala
     val obj = new DataPreparator(PreparatorParams(1))
     val tf = obj.processPhrase(phrase)
     tf.show(10)
     val labeledpoints = tf.map(row => row.getAs[Vector]("rowFeatures"))
-
-    print("label points --",labeledpoints)
 
     val predictedResult = model.nb.predict(labeledpoints)
     val result = predictedResult.first()
@@ -78,27 +73,3 @@ object NBModel extends IPersistentModelLoader[AlgorithmParams, NBModel]{
 }
 
 
-//    extra code
-//    val sc_new = SparkContext.getOrCreate()
-//    val sqlContext = SQLContext.getOrCreate(sc_new)
-//    val phraseDataframe = sqlContext.createDataFrame(Seq(query)).toDF("phrase")
-//    phraseDataframe.show()
-//
-//    val dpObj = new DataPreparator
-//    val tf = dpObj.processPhrase(phraseDataframe)
-//    tf.show()
-//    val labeledpoints = tf.map(row => row.getAs[Vector]("rowFeatures"))
-//    print("label points --",labeledpoints)
-//    val predictedResult = model.nb.predict(labeledpoints)
-//    val result = predictedResult.first()
-//
-//    val prob = model.nb.predictProbabilities(labeledpoints)
-//    val score = prob.first().toArray
-//
-//    var weight:Double = 0.0
-//    if(result == 1.0)
-//      {weight = score.last}
-//    else
-//      {weight = score.head}
-//    print("score --",score)
-//    PredictedResult(result,weight)

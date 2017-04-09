@@ -31,7 +31,6 @@ class DataSource(val dsp: DataSourceParam) extends PDataSource[TrainingData, Emp
   override def readEval(sc: SparkContext): Seq[(TrainingData, EmptyEvaluationInfo, RDD[(Query, ActualResult)])] = {
 
     val data = readEvent(sc).zipWithIndex()
-    print("data length--",data.count())
     (0 until dsp.evalK).map { k =>
       val trainigdata = data.filter(_._2 % dsp.evalK != k).map(_._1)
       val testdata = data.filter(_._2 % dsp.evalK == k).map(_._1)
